@@ -1,0 +1,10 @@
+button{
+    font-size: 16px;
+    background-color: blue;
+    color: white;
+    padding: 15px 30px;
+    width : 100px;
+}
+.counter{
+    font-size: 16px;
+}
