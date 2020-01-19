@@ -16,22 +16,22 @@ export const sampleGet = async () => {
 };
 
 export const retrieveAllTodos = async name => {
-  const response = await instance.get(`/users/${name}/todos`);
+  const response = await instance.get(`/jpa/users/${name}/todos`);
   return response.data;
 };
 export const deleteTodo = async (name, id) => {
-  await instance.delete(`/users/${name}/todos/${id}`);
+  await instance.delete(`/jpa/users/${name}/todos/${id}`);
 };
 export const getTodo = async (name, id) => {
-  const response = await instance.get(`/users/${name}/todos/${id}`);
+  const response = await instance.get(`/jpa/users/${name}/todos/${id}`);
   return response.data;
 };
 export const updateTodo = async (name, id, todo) => {
-  const response = await instance.put(`/users/${name}/todos/${id}`, todo);
+  const response = await instance.put(`/jpa/users/${name}/todos/${id}`, todo);
   return response.data;
 };
 export const createTodo = async (name, todo) => {
-  await instance.post(`users/${name}/todos`, todo);
+  await instance.post(`/jpa/users/${name}/todos`, todo);
 };
 
 export default instance;

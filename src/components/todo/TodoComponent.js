@@ -19,11 +19,14 @@ class TodoComponent extends Component {
   onSubmit = ({ description, targetDate }) => {
     let username = AuthenticationService.getLoggedInUser();
     const { id } = this.state;
+    var date = new Date(targetDate);
     let todo = {
       id: parseInt(id),
       username,
       description,
-      targetDate,
+      targetDate: moment(
+        date.toLocaleDateString("en-us", { timeZone: "UTC" })
+      ).format("YYYY-MM-DD"),
       completed: false
     };
     if (id === "-1") {
@@ -32,13 +35,14 @@ class TodoComponent extends Component {
           this.props.history.push("/todos");
         })
         .catch(e => console.log(e));
+    } else {
+      updateTodo(username, id, todo)
+        .then(todo => console.log(todo))
+        .catch(e => console.log(e))
+        .finally(() => this.props.history.push("/todos"));
     }
-
-    updateTodo(username, id, todo)
-      .then(todo => console.log(todo))
-      .catch(e => console.log(e))
-      .finally(() => this.props.history.push("/todos"));
   };
+
   validate = ({ description, targetDate }) => {
     let errors = { description: null, targetDate: null };
     errors = !description
@@ -80,7 +84,15 @@ class TodoComponent extends Component {
 
   render() {
     var { description, targetDate } = this.state;
-    targetDate = moment(new Date(targetDate)).format("YYYY-MM-DD");
+    targetDate = moment(
+      new Date(targetDate).toLocaleDateString("en-us", {
+        timeZone: "UTC",
+        month: "short",
+        weekday: "short",
+        year: "numeric",
+        day: "numeric"
+      })
+    ).format("YYYY-MM-DD");
     console.log(description);
 
     return (

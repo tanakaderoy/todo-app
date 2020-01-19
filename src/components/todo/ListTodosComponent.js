@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { retrieveAllTodos, deleteTodo } from "../../api/Api";
 import AuthenticationService from "./AuthenticationService";
-import moment from "moment"
+import moment from "moment";
 
 class ListTodoscomponent extends Component {
   constructor(props) {
@@ -12,8 +12,7 @@ class ListTodoscomponent extends Component {
     };
   }
   componentDidMount() {
-
-     this.getTodos();
+    this.getTodos();
   }
 
   render() {
@@ -40,11 +39,23 @@ class ListTodoscomponent extends Component {
                   <td>{todo.description}</td>
                   <td>{todo.completed.toString()}</td>
                   <td>
-                    {moment(todo.targetDate).format('MMM. D, YYYY h:mm A')}</td>
-                  <td><button
+                    {moment(
+                      new Date(todo.targetDate).toLocaleDateString("en-us", {
+                        timeZone: "UTC",
+                        year: "2-digit",
+                        month: "2-digit",
+                        day: "2-digit"
+                      })
+                    ).format("MMM. D, YYYY")}
+                  </td>
+                  <td>
+                    <button
                       className="btn btn-success"
                       onClick={() => this.peformTodoUpdate(todo.id)}
-                    >Update</button></td>
+                    >
+                      Update
+                    </button>
+                  </td>
                   <td>
                     <button
                       className="btn btn-warning"
@@ -58,15 +69,15 @@ class ListTodoscomponent extends Component {
             </tbody>
           </table>
           <div className="row">
-            <button className="btn btn-success" onClick={this.peformTodoAdd}>Add</button>
+            <button className="btn btn-success" onClick={this.peformTodoAdd}>
+              Add
+            </button>
           </div>
         </div>
       </div>
     );
   }
-  createNewTodo = () => {
-
-  }
+  createNewTodo = () => {};
   getTodos = () => {
     retrieveAllTodos(AuthenticationService.getLoggedInUser())
       .then(todos => {
@@ -74,14 +85,13 @@ class ListTodoscomponent extends Component {
       })
       .catch(e => this.handleErrorResponse(e));
   };
-peformTodoAdd = () => {
-  this.props.history.push(`/todos/-1`)
-
-}
+  peformTodoAdd = () => {
+    this.props.history.push(`/todos/-1`);
+  };
 
   peformTodoUpdate = id => {
-this.props.history.push(`/todos/${id}`)
-  }
+    this.props.history.push(`/todos/${id}`);
+  };
 
   peformTodoDelete = id => {
     const userName = AuthenticationService.getLoggedInUser();
@@ -99,7 +109,5 @@ this.props.history.push(`/todos/${id}`)
     console.log(error);
   };
 }
-
-
 
 export default ListTodoscomponent;
